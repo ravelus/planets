@@ -2,7 +2,7 @@ using System;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PlanetSystem;
+using PlanetSystem.Models;
 
 namespace UnitTestProject1
 {

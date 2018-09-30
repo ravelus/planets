@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PlanetSystem
+namespace PlanetSystem.Models
 {
     public class Planet
     {

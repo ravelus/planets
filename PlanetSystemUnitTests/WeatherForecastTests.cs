@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PlanetSystem;
+using PlanetSystem.Forecast;
+
 namespace PlanetSystemUnitTests
 {
     [TestClass]

@@ -1,4 +1,6 @@
-﻿namespace PlanetSystem
+﻿using PlanetSystem.Models;
+
+namespace PlanetSystem.Forecast
 {
     public class WeatherForecast
     {
@@ -22,8 +24,7 @@
 
         public bool IsDryToday()
         {
-            //TODO
-            return false;
+            return ArePlanetsAndSunAligned();
         }
 
         public bool IsWetToday()
@@ -39,6 +40,17 @@
         }
 
         public bool IsGreatToday()
+        {
+            return ArePlanetsAligned() && !ArePlanetsAndSunAligned();
+        }
+
+        bool ArePlanetsAligned()
+        {
+            //TODO
+            return false;
+        }
+
+        bool ArePlanetsAndSunAligned()
         {
             //TODO
             return false;
