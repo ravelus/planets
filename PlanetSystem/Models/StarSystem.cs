@@ -7,7 +7,7 @@ namespace PlanetSystem.Models
     {
         public Planet Star { get; set; }
 
-        public ICollection<Planet> Planets { get; set; }
+        public IList<Planet> Planets { get; set; }
 
         public void TranslateStep()
         {

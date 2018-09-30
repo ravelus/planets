@@ -12,8 +12,6 @@ namespace PlanetSystem.Forecast
 
         readonly StarSystem _system;
 
-        IDictionary<double, Tuple<Planet, Planet>> _distances;
-
 
         public ForecastCalculator(StarSystem sys)
         {
@@ -22,44 +20,49 @@ namespace PlanetSystem.Forecast
 
         public bool ArePlanetsAligned()
         {
-            CalculateDistances();
+            var distances = CalculateDistances(_system.Planets);
 
-            var maxDistance = _distances.Keys.Max();
+            var maxDistance = distances.Max();
 
-            _distances.Remove(maxDistance);
+            distances.Remove(maxDistance);
 
-            return Math.Abs(maxDistance - _distances.Keys.Sum()) < TOLERANCE;
+            return Math.Abs(maxDistance - distances.Sum()) < TOLERANCE;
         }
 
         public bool ArePlanetsAndSunAligned()
         {
-            //TODO
-            return false;
+            if (!ArePlanetsAligned())
+                return false;
+
+            var items = new List<Planet>();
+            items.Add(_system.Star);
+
+            for (int i = 1; i < _system.Planets.Count; i++)
+            {
+                items.Add(_system.Planets[i]);
+            }
+
+            var distances = CalculateDistances(items);
+
+            var maxDistance = distances.Max();
+
+            distances.Remove(maxDistance);
+
+            return (Math.Abs(maxDistance - distances.Sum()) < TOLERANCE);
         }
 
-        void CalculateDistances()
+        IList<double> CalculateDistances(IList<Planet> planets)
         {
-            // distances already cached
-            if (_distances != null)
-                return;
-
-            _distances = new Dictionary<double, Tuple<Planet, Planet>>();
-            foreach (var planet1 in _system.Planets)
+            var result  = new List<double>();
+            for (int i = 0; i < planets.Count; i++)
             {
-                foreach (var planet2 in _system.Planets)
+                for (int j = i + 1; j < planets.Count; j++)
                 {
-                    if (planet1 == planet2)
-                        continue;
-
-                    _distances[CalculateDistance(planet1, planet2)] =
-                        new Tuple<Planet, Planet>(planet1, planet2);
+                    result.Add(CalculateDistance(planets[i], planets[j]));
                 }
             }
-        }
 
-        public void CleanDistances()
-        {
-            _distances = null;
+            return result;
         }
 
         double CalculateDistance(Planet p1, Planet p2)

@@ -1,15 +1,13 @@
-﻿using System.Threading.Tasks;
-
-using PlanetSystem.Models;
+﻿using PlanetSystem.Models;
 
 namespace PlanetSystem.Forecast
 {
     public class WeatherForecast
     {
-        ForecastCalculator _calculator;
-        StarSystem _system;
+        readonly ForecastCalculator _calculator;
+        readonly StarSystem _system;
 
-        WeatherForecast(StarSystem sys)
+        public WeatherForecast(StarSystem sys)
         {
             _system = sys;
             _calculator = new ForecastCalculator(sys);
@@ -18,12 +16,11 @@ namespace PlanetSystem.Forecast
         public void Dawn()
         {
             _system.TranslateStep();
-            _calculator.CleanDistances();
         }
 
         public bool IsDryToday()
         {
-            return ArePlanetsAndSunAligned();
+            return _calculator.ArePlanetsAndSunAligned();
         }
 
         public bool IsWetToday()
@@ -40,20 +37,9 @@ namespace PlanetSystem.Forecast
 
         public bool IsGreatToday()
         {
-            return _calculator.ArePlanetsAligned() &&
+            return
+                _calculator.ArePlanetsAligned() &&
                 !_calculator.ArePlanetsAndSunAligned();
-        }
-
-        bool ArePlanetsAligned()
-        {
-            //TODO
-            return false;
-        }
-
-        bool ArePlanetsAndSunAligned()
-        {
-            //TODO
-            return false;
         }
     }
 }
