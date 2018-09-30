@@ -20,8 +20,6 @@ namespace PlanetSystem.Forecast
             _system = sys;
         }
 
-
-
         public bool ArePlanetsAligned()
         {
             CalculateDistances();
@@ -30,7 +28,7 @@ namespace PlanetSystem.Forecast
 
             _distances.Remove(maxDistance);
 
-            return (maxDistance - _distances.Keys.Sum()) < TOLERANCE;
+            return Math.Abs(maxDistance - _distances.Keys.Sum()) < TOLERANCE;
         }
 
         public bool ArePlanetsAndSunAligned()
@@ -53,9 +51,8 @@ namespace PlanetSystem.Forecast
                     if (planet1 == planet2)
                         continue;
 
-                    _distances.Add(
-                        CalculateDistance(planet1, planet2),
-                        new Tuple<Planet, Planet>(planet1, planet2));
+                    _distances[CalculateDistance(planet1, planet2)] =
+                        new Tuple<Planet, Planet>(planet1, planet2);
                 }
             }
         }
