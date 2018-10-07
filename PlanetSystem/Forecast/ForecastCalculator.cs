@@ -12,6 +12,8 @@ namespace PlanetSystem.Forecast
 
         readonly StarSystem _system;
 
+        double? _maxPerimeter;
+
 
         public ForecastCalculator(StarSystem sys)
         {
@@ -60,9 +62,14 @@ namespace PlanetSystem.Forecast
             return true;
         }
 
-        internal bool IsTriangleMaxPerimeter()
+        public bool IsTriangleMaxPerimeter()
         {
-            throw new NotImplementedException();
+            var currentPerimeter =
+                CalculateDistance(_system.Planets[0], _system.Planets[1]) +
+                CalculateDistance(_system.Planets[1], _system.Planets[2]) +
+                CalculateDistance(_system.Planets[0], _system.Planets[2]);
+
+            return GetMaxTrianglePerimeter() - currentPerimeter <= TOLERANCE;
         }
 
         public bool ArePlanetsAndSunAligned()
@@ -121,6 +128,32 @@ namespace PlanetSystem.Forecast
                 (a1.X - a3.X) * (a2.Y - a3.Y) - (a1.Y - a3.Y) * (a2.X - a3.X);
 
             return orientation > 0;
+        }
+
+        double GetMaxTrianglePerimeter()
+        {
+            if (_maxPerimeter == null)
+            {
+                _maxPerimeter = DoCalculateMaxTrianglePerimeter();
+            }
+
+            return _maxPerimeter.Value;
+        }
+
+        double DoCalculateMaxTrianglePerimeter()
+        {
+            // build a triangle with the given planets where they are as much
+            // far away from each other as possible
+            var planet1Reallocated = new Planet(0, _system.Planets[0].Radius);
+            var planet2Reallocated = new Planet(135, _system.Planets[1].Radius);
+            var planet3Reallocated = new Planet(225, _system.Planets[2].Radius);
+
+            //calculate the distance they would have between them
+
+            return
+                CalculateDistance(planet1Reallocated, planet2Reallocated) +
+                CalculateDistance(planet2Reallocated, planet3Reallocated) +
+                CalculateDistance(planet1Reallocated, planet3Reallocated);
         }
     }
 }
