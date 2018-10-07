@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -28,48 +29,59 @@ namespace WeatherSimulator
             StarSystem system = new StarSystem(star, planets);
 
             int totalDays = 10 * 365; // 10 years on the Earth
-            RunAsync(system, totalDays);
+
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+            var forecastByDay = Run(system, totalDays);
+            timer.Stop();
+
+            SaveForecast(forecastByDay);
+
+            PrintSummary(forecastByDay);
+
+            Console.WriteLine($"Total time processing: {timer.ElapsedMilliseconds} millis");
+
+            if (timer.ElapsedMilliseconds > 1000)
+                Console.WriteLine("Expected to be under 1 sec!!!");
+
+            Console.ReadLine();
         }
 
-        static void RunAsync(StarSystem system, int totalDays)
+        static Dictionary<int, WeatherDescription> Run(StarSystem system, int totalDays)
         {
-            var forecastByDay = new Dictionary<int, WeatherDescription>();
+            var result = new Dictionary<int, WeatherDescription>();
 
             WeatherForecast forecaster = new WeatherForecast(system);
             for (int i = 1; i <= totalDays; i++) //let's start couting on day 1 :)
             {
                 forecaster.Dawn();
 
-                forecastByDay.Add(i, WeatherDescription.None);
+                result.Add(i, WeatherDescription.None);
 
                 if (forecaster.IsGreatToday())
                 {
-                    forecastByDay[i] = WeatherDescription.Great;
+                    result[i] = WeatherDescription.Great;
                     continue;
                 }
 
                 if (forecaster.IsDryToday())
                 {
-                    forecastByDay[i] = WeatherDescription.Dry;
+                    result[i] = WeatherDescription.Dry;
                     continue;
                 }
 
                 if (!forecaster.IsWetToday())
                     continue;
 
-                forecastByDay[i] = WeatherDescription.Wet;
+                result[i] = WeatherDescription.Wet;
 
                 if (forecaster.IsVeryWetToday())
                 {
-                    forecastByDay[i] = WeatherDescription.VeryWet;
+                    result[i] = WeatherDescription.VeryWet;
                 }
             }
 
-            SaveForecast(forecastByDay);
-
-            PrintSummary(forecastByDay);
-
-            Console.ReadLine();
+            return result;
         }
 
         static void SaveForecast(Dictionary<int, WeatherDescription> forecastByDay)
