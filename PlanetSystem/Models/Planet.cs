@@ -22,11 +22,6 @@ namespace PlanetSystem.Models
                 Radius = MAX_DEGREES;
         }
 
-        public struct CartesianCoords
-        {
-            public double X { get; set; }
-            public double Y { get; set; }
-        }
 
         public CartesianCoords GetCartesianPosition()
         {

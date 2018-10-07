@@ -29,28 +29,32 @@ namespace PlanetSystem.Forecast
             return Math.Abs(maxDistance - distances.Sum()) < TOLERANCE;
         }
 
-        internal bool IsStarContainedInPlanetsTriangle()
+        public bool IsStarContainedInPlanetsTriangle()
         {
+            var starCoords = _system.Star.GetCartesianPosition();
             var planet1Coords = _system.Planets[0].GetCartesianPosition();
             var planet2Coords = _system.Planets[1].GetCartesianPosition();
             var planet3Coords = _system.Planets[2].GetCartesianPosition();
 
-            // cartesian product of coords, math definition; see:
-            // http://funes.uniandes.edu.co/8137/1/pag2.html
-            var a1 = 0 - 
-                ((planet1Coords.X * planet3Coords.Y) - (planet1Coords.Y * planet3Coords.X) /
-                (planet2Coords.X * planet3Coords.Y) - (planet2Coords.Y * planet3Coords.X));
+            var planetTriangleOrientation = CalculateTriangleOrientation(
+                planet1Coords, planet2Coords, planet3Coords);
 
-            if (a1 <= 0)
+            var p1p2starTriangleOrientation = CalculateTriangleOrientation(
+                planet1Coords, planet2Coords, starCoords);
+
+            if (planetTriangleOrientation != p1p2starTriangleOrientation)
                 return false;
 
-            // cartesian product of coords, math definition; see:
-            // http://funes.uniandes.edu.co/8137/1/pag2.html
-            var a2 = 0 -
-                ((planet1Coords.X * planet2Coords.Y) - (planet1Coords.Y * planet2Coords.X) /
-                (planet2Coords.X * planet3Coords.Y) - (planet2Coords.Y * planet3Coords.X));
+            var p2p3starTriangleOrientation = CalculateTriangleOrientation(
+                planet2Coords, planet3Coords, starCoords);
 
-            if (a2 <= 0)
+            if (planetTriangleOrientation != p2p3starTriangleOrientation)
+                return false;
+
+            var p3p1starTriangleOrientation = CalculateTriangleOrientation(
+                planet3Coords, planet1Coords, starCoords);
+
+            if (planetTriangleOrientation != p3p1starTriangleOrientation)
                 return false;
 
             return true;
@@ -105,6 +109,18 @@ namespace PlanetSystem.Forecast
             return Math.Sqrt(
                 Math.Pow(Math.Abs(p1Coords.X - p2Coords.X), 2) +
                 Math.Pow(Math.Abs(p1Coords.Y - p2Coords.Y), 2));
+        }
+
+        // true -> positive orientation
+        // false -> negative orientation
+        bool CalculateTriangleOrientation(
+            CartesianCoords a1, CartesianCoords a2, CartesianCoords a3)
+        {
+            //(A1.x - A3.x) * (A2.y - A3.y) - (A1.y - A3.y) * (A2.x - A3.x)
+            var orientation =
+                (a1.X - a3.X) * (a2.Y - a3.Y) - (a1.Y - a3.Y) * (a2.X - a3.X);
+
+            return orientation > 0;
         }
     }
 }

@@ -156,5 +156,89 @@ namespace PlanetSystemUnitTests
             result = calculator.ArePlanetsAndSunAligned();
             Assert.IsFalse(result);
         }
+
+        [TestMethod]
+        public void StarContainedInTrianglePositiveOrientationTest()
+        {
+            var star = new Planet(0, 0);
+            var planets = new List<Planet>
+            {
+                new Planet(90, 500),
+                new Planet(225, 1000),
+                new Planet(300, 1500)
+            };
+
+            var system = new StarSystem(star, planets);
+
+            system.TranslateStep();
+
+            var calculator = new ForecastCalculator(system);
+            bool result = calculator.IsStarContainedInPlanetsTriangle();
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void StarContainedInTriangleNegativeOrientationTest()
+        {
+            var star = new Planet(0, 0);
+            var planets = new List<Planet>
+            {
+                new Planet(270, 500),
+                new Planet(135, 1000),
+                new Planet(60, 1500)
+            };
+
+            var system = new StarSystem(star, planets);
+
+            system.TranslateStep();
+
+            var calculator = new ForecastCalculator(system);
+            bool result = calculator.IsStarContainedInPlanetsTriangle();
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void StarNotContainedInTrianglePositiveOrientationTest()
+        {
+            var star = new Planet(0, 0);
+            var planets = new List<Planet>
+            {
+                new Planet(90, 500),
+                new Planet(135, 1000),
+                new Planet(45, 1500)
+            };
+
+            var system = new StarSystem(star, planets);
+
+            system.TranslateStep();
+
+            var calculator = new ForecastCalculator(system);
+            bool result = calculator.IsStarContainedInPlanetsTriangle();
+
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void StarNotContainedInTriangleNegativeOrientationTest()
+        {
+            var star = new Planet(0, 0);
+            var planets = new List<Planet>
+            {
+                new Planet(180, 500),
+                new Planet(135, 1000),
+                new Planet(225, 1500)
+            };
+
+            var system = new StarSystem(star, planets);
+
+            system.TranslateStep();
+
+            var calculator = new ForecastCalculator(system);
+            bool result = calculator.IsStarContainedInPlanetsTriangle();
+
+            Assert.IsFalse(result);
+        }
     }
 }
