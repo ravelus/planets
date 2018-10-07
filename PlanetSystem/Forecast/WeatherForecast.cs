@@ -32,7 +32,7 @@ namespace PlanetSystem.Forecast
         {
             return
                 IsWetToday() &&
-                _calculator.IsTriangleMaxPerimeter();
+                _calculator.HasTriangleMaxPerimeter();
         }
 
         public bool IsGreatToday()

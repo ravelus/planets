@@ -240,5 +240,72 @@ namespace PlanetSystemUnitTests
 
             Assert.IsFalse(result);
         }
+
+        [TestMethod]
+        public void TriangleHasMaxPerimeterTest()
+        {
+            var star = new Planet(0, 0);
+            var planets = new List<Planet>
+            {
+                new Planet(90, 500),
+                new Planet(225, 1000),
+                new Planet(315, 1500)
+            };
+
+            var system = new StarSystem(star, planets);
+
+            system.TranslateStep();
+
+            var calculator = new ForecastCalculator(system);
+            bool result = calculator.HasTriangleMaxPerimeter();
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TriangleHasMaxPerimeterCase2Test()
+        {
+            var star = new Planet(0, 0);
+
+            // a "not-so-perfect" case
+            var planets = new List<Planet>
+            {
+                new Planet(90 + 10, 500),
+                new Planet(225 + 10, 500),
+                new Planet(315 + 10, 500)
+            };
+
+            var system = new StarSystem(star, planets);
+
+            system.TranslateStep();
+
+            var calculator = new ForecastCalculator(system);
+            bool result = calculator.HasTriangleMaxPerimeter();
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TriangleDoesNotHaveMaxPerimeterTest()
+        {
+            var star = new Planet(0, 0);
+
+            // a "not-so-perfect" case
+            var planets = new List<Planet>
+            {
+                new Planet(0, 500),
+                new Planet(90, 1000),
+                new Planet(225, 1500)
+            };
+
+            var system = new StarSystem(star, planets);
+
+            system.TranslateStep();
+
+            var calculator = new ForecastCalculator(system);
+            bool result = calculator.HasTriangleMaxPerimeter();
+
+            Assert.IsFalse(result);
+        }
     }
 }

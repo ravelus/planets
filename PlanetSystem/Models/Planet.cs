@@ -7,14 +7,14 @@ namespace PlanetSystem.Models
         const uint MAX_DEGREES = 360;
 
         readonly int _speed;
-        readonly uint _sunDistanceKm;
 
         public uint Radius { get; private set; }
+        public uint SunDistanceKm { get; private set; }
 
         public Planet(int speed, uint sunDistanceKm)
         {
             _speed = speed;
-            _sunDistanceKm = sunDistanceKm;
+            SunDistanceKm = sunDistanceKm;
 
             if (_speed > 0)
                 Radius = 0;
@@ -27,8 +27,8 @@ namespace PlanetSystem.Models
         {
             return new CartesianCoords
             {
-                X = Math.Cos(RadiusToRadians) * _sunDistanceKm,
-                Y = Math.Sin(RadiusToRadians) * _sunDistanceKm
+                X = Math.Cos(RadiusToRadians) * SunDistanceKm,
+                Y = Math.Sin(RadiusToRadians) * SunDistanceKm
             };
         }
 

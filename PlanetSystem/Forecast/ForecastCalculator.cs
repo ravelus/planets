@@ -62,14 +62,16 @@ namespace PlanetSystem.Forecast
             return true;
         }
 
-        public bool IsTriangleMaxPerimeter()
+        public bool HasTriangleMaxPerimeter()
         {
-            var currentPerimeter =
-                CalculateDistance(_system.Planets[0], _system.Planets[1]) +
-                CalculateDistance(_system.Planets[1], _system.Planets[2]) +
-                CalculateDistance(_system.Planets[0], _system.Planets[2]);
 
-            return GetMaxTrianglePerimeter() - currentPerimeter <= TOLERANCE;
+            var d1 = CalculateDistance(_system.Planets[0], _system.Planets[1]);
+            var d2 = CalculateDistance(_system.Planets[1], _system.Planets[2]);
+            var d3 = CalculateDistance(_system.Planets[0], _system.Planets[2]);
+
+            var currentPerimeter = d1 + d2 + d3;
+
+            return Math.Abs(GetMaxTrianglePerimeter() - currentPerimeter) <= TOLERANCE;
         }
 
         public bool ArePlanetsAndSunAligned()
@@ -144,16 +146,23 @@ namespace PlanetSystem.Forecast
         {
             // build a triangle with the given planets where they are as much
             // far away from each other as possible
-            var planet1Reallocated = new Planet(0, _system.Planets[0].Radius);
-            var planet2Reallocated = new Planet(135, _system.Planets[1].Radius);
-            var planet3Reallocated = new Planet(225, _system.Planets[2].Radius);
+            var planet1Reallocated = new Planet(0, _system.Planets[0].SunDistanceKm);
+            var planet2Reallocated = new Planet(135, _system.Planets[1].SunDistanceKm);
+            var planet3Reallocated = new Planet(225, _system.Planets[2].SunDistanceKm);
+
+            // move the planets to the position I want to check!
+            planet1Reallocated.Move();
+            planet2Reallocated.Move();
+            planet3Reallocated.Move();
 
             //calculate the distance they would have between them
 
-            return
-                CalculateDistance(planet1Reallocated, planet2Reallocated) +
-                CalculateDistance(planet2Reallocated, planet3Reallocated) +
-                CalculateDistance(planet1Reallocated, planet3Reallocated);
+
+            var d1 = CalculateDistance(planet1Reallocated, planet2Reallocated);
+            var d2 = CalculateDistance(planet2Reallocated, planet3Reallocated);
+            var d3 = CalculateDistance(planet1Reallocated, planet3Reallocated);
+
+            return d1 + d2 + d3;
         }
     }
 }
