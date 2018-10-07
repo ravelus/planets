@@ -15,16 +15,14 @@ namespace WeatherSimulator
             Planet vulcano = new Planet(5, 1000);
             Planet star = new Planet(0, 0);
 
-            StarSystem system = new StarSystem
+            var planets = new List<Planet>
             {
-                Star = star,
-                Planets = new List<Planet>
-                {
-                    ferengi,
-                    betasoide,
-                    vulcano
-                }
+                ferengi,
+                betasoide,
+                vulcano
             };
+
+            StarSystem system = new StarSystem(star, planets);
 
             int totalDays = 10 * 365; // 10 years on the Earth
             RunAsync(system, totalDays);

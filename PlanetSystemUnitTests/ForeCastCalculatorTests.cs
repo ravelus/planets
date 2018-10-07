@@ -13,16 +13,14 @@ namespace PlanetSystemUnitTests
         [TestMethod]
         public void ArePlanetsAlignedTest()
         {
-            var system = new StarSystem
+            var star = new Planet(0, 0);
+            var planets = new List<Planet>
             {
-                Star = new Planet(0, 0),
-                Planets = new List<Planet>
-                {
-                    new Planet(90, 500),
-                    new Planet(90, 2000),
-                    new Planet(90, 1000)
-                }
+                new Planet(90, 500),
+                new Planet(90, 2000),
+                new Planet(90, 1000)
             };
+            var system = new StarSystem(star, planets);
 
             system.TranslateStep();
 
@@ -35,16 +33,15 @@ namespace PlanetSystemUnitTests
         [TestMethod]
         public void ArePlanetsNotAlignedTest()
         {
-            var system = new StarSystem
+            var star = new Planet(0, 0);
+            var planets = new List<Planet>
             {
-                Star = new Planet(0, 0),
-                Planets = new List<Planet>
-                {
-                    new Planet(40, 500),
-                    new Planet(30, 2000),
-                    new Planet(-90, 1000)
-                }
+                new Planet(40, 500),
+                new Planet(30, 2000),
+                new Planet(-90, 1000)
             };
+
+            var system = new StarSystem(star, planets);
 
             system.TranslateStep();
 
@@ -57,16 +54,14 @@ namespace PlanetSystemUnitTests
         [TestMethod]
         public void ArePlanetsAlignedNegativeSpeedTest()
         {
-            var system = new StarSystem
+            var star = new Planet(0, 0);
+            var planets = new List<Planet>
             {
-                Star = new Planet(0, 0),
-                Planets = new List<Planet>
-                {
-                    new Planet(90, 500),
-                    new Planet(-270, 2000),
-                    new Planet(-270, 1000)
-                }
+                new Planet(90, 500),
+                new Planet(-270, 2000),
+                new Planet(-270, 1000)
             };
+            var system = new StarSystem(star, planets);
 
             system.TranslateStep();
 
@@ -79,16 +74,14 @@ namespace PlanetSystemUnitTests
         [TestMethod]
         public void ArePlanetsAndSunAligned()
         {
-            var system = new StarSystem
+            var star = new Planet(0, 0);
+            var planets = new List<Planet>
             {
-                Star = new Planet(0, 0),
-                Planets = new List<Planet>
-                {
-                    new Planet(90, 500),
-                    new Planet(90, 2000),
-                    new Planet(90, 1000)
-                }
+                new Planet(90, 500),
+                new Planet(90, 2000),
+                new Planet(90, 1000)
             };
+            var system = new StarSystem(star, planets);
 
             system.TranslateStep();
 
@@ -101,16 +94,15 @@ namespace PlanetSystemUnitTests
         [TestMethod]
         public void ArePlanetsAndSunNotAligned()
         {
-            var system = new StarSystem
+            var star = new Planet(0, 0);
+            var planets = new List<Planet>
             {
-                Star = new Planet(0, 0),
-                Planets = new List<Planet>
-                {
-                    new Planet(45, 500),
-                    new Planet(90, 2000),
-                    new Planet(90, 1000)
-                }
+                new Planet(45, 500),
+                new Planet(90, 2000),
+                new Planet(90, 1000)
             };
+
+            var system = new StarSystem(star, planets);
 
             system.TranslateStep();
 
@@ -123,16 +115,15 @@ namespace PlanetSystemUnitTests
         [TestMethod]
         public void ArePlanetsAndSunAlignedNegativeSpeedTest()
         {
-            var system = new StarSystem
+            var star = new Planet(0, 0);
+            var planets = new List<Planet>
             {
-                Star = new Planet(0, 0),
-                Planets = new List<Planet>
-                {
-                    new Planet(90, 500),
-                    new Planet(-270, 2000),
-                    new Planet(90, 1000)
-                }
+                new Planet(90, 500),
+                new Planet(-270, 2000),
+                new Planet(90, 1000)
             };
+
+            var system = new StarSystem(star, planets);
 
             system.TranslateStep();
 
@@ -145,16 +136,15 @@ namespace PlanetSystemUnitTests
         [TestMethod]
         public void ArePlanetsAlignedButNotWithSunTest()
         {
-            var system = new StarSystem
+            var star = new Planet(0, 0);
+            var planets = new List<Planet>
             {
-                Star = new Planet(0, 0),
-                Planets = new List<Planet>
-                {
-                    new Planet(-1, 500),
-                    new Planet(35, 1500),
-                    new Planet(27, 1000)
-                }
+                new Planet(-1, 500),
+                new Planet(35, 1500),
+                new Planet(27, 1000)
             };
+
+            var system = new StarSystem(star, planets);
 
             system.TranslateStep();
 

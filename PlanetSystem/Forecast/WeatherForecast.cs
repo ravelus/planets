@@ -25,14 +25,14 @@ namespace PlanetSystem.Forecast
 
         public bool IsWetToday()
         {
-            //TODO
-            return false;
+            return _calculator.ArePlanetsTriangled();
         }
 
         public bool IsVeryWetToday()
         {
-            //TODO
-            return false;
+            return
+                IsWetToday() &&
+                _calculator.IsTriangleMaxPerimeter();
         }
 
         public bool IsGreatToday()

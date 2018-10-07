@@ -29,6 +29,16 @@ namespace PlanetSystem.Forecast
             return Math.Abs(maxDistance - distances.Sum()) < TOLERANCE;
         }
 
+        internal bool ArePlanetsTriangled()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal bool IsTriangleMaxPerimeter()
+        {
+            throw new NotImplementedException();
+        }
+
         public bool ArePlanetsAndSunAligned()
         {
             if (!ArePlanetsAligned())
