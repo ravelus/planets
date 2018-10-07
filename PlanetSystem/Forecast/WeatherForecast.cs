@@ -25,7 +25,7 @@ namespace PlanetSystem.Forecast
 
         public bool IsWetToday()
         {
-            return _calculator.ArePlanetsTriangled();
+            return _calculator.IsStarContainedInPlanetsTriangle();
         }
 
         public bool IsVeryWetToday()

@@ -15,6 +15,10 @@ namespace PlanetSystem.Models
             if (planets.Count != 3)
                 throw new ArgumentException("The number of planets must be 3");
 
+            var coords = star.GetCartesianPosition();
+            if (coords.X != 0 || coords.Y != 0)
+                throw new ArgumentException("The star must be located in the origin");
+
             Star = star;
             Planets = planets;
         }
