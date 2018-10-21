@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 
 using PlanetSystemAPI.Helpers;
+using PlanetSystemAPI2.Models;
 
 namespace PlanetSystemAPI.Controllers
 {
@@ -12,15 +13,15 @@ namespace PlanetSystemAPI.Controllers
         }
 
         // in spanish to attach to the requirements given
-        public string Clima(int dia)
+        public JsonResult Clima(int dia)
         {
-            return JsonifyResponse(dia, WeatherHelper.GetWeatherOfDay(dia));
-        }
+            var result = new WeatherInfo
+            {
+                Dia = dia,
+                Clima = WeatherHelper.GetWeatherOfDay(dia)
+            };
 
-        string JsonifyResponse(int day, string weather)
-        {
-            //There's no point in adding REAL Json support for such a simple response
-            return $"{{\"dia\":{day}, \"clima\":\"{weather}\"}}";
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }
